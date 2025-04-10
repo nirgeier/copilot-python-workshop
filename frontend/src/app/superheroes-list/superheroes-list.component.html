@@ -1,0 +1,31 @@
+<div class="superheroes-container">
+  <h2>Superheroes List</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Intelligence</th>
+        <th>Strength</th>
+        <th>Speed</th>
+        <th>Durability</th>
+        <th>Power</th>
+        <th>Combat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let hero of superheroes">
+        <td>{{hero.id}}</td>
+        <td><img [src]="hero.image" [alt]="hero.name" class="hero-image"></td>
+        <td>{{hero.name}}</td>
+        <td>{{hero.powerstats.intelligence}}</td>
+        <td>{{hero.powerstats.strength}}</td>
+        <td>{{hero.powerstats.speed}}</td>
+        <td>{{hero.powerstats.durability}}</td>
+        <td>{{hero.powerstats.power}}</td>
+        <td>{{hero.powerstats.combat}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
