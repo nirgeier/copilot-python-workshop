@@ -4,10 +4,20 @@ import json
 import os
 
 def load_superheroes():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(current_dir, 'superheroes.json')
-    with open(json_path, 'r') as f:
-        return json.load(f)
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(current_dir, 'superheroes.json')
+        with open(json_path, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Error: superheroes.json file not found")
+        return []
+    except json.JSONDecodeError:
+        print("Error: Invalid JSON format in superheroes.json")
+        return []
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
+        return []
 
 app = Flask(__name__)
 CORS(app)
@@ -19,6 +29,13 @@ def hello():
     return "Save the World!"
 
 @app.route('/superheroes/all')
+"""
+Get a list of all superheroes.
+
+Returns:
+    json: A JSON array containing all superhero objects from the superheroes list.
+    Each superhero object contains hero information such as name, powers, etc.
+"""
 def get_all_superheroes():
     return jsonify(superheroes)
 
