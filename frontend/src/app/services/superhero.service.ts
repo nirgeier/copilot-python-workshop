@@ -22,7 +22,7 @@ export interface Superhero {
   providedIn: 'root'
 })
 export class SuperheroService {
-  private apiUrl = 'http://localhost:5000';
+  private apiUrl = 'http://localhost:3000';
 
   constructor(private http: HttpClient) { }
 
