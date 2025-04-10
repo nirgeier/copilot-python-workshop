@@ -3,13 +3,16 @@ from flask_cors import CORS
 import json
 import os
 
+def load_superheroes():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(current_dir, 'superheroes.json')
+    with open(json_path, 'r') as f:
+        return json.load(f)
+
 app = Flask(__name__)
 CORS(app)
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-json_path = os.path.join(current_dir, 'superheroes.json')
-with open(json_path, 'r') as f:
-    superheroes = json.load(f)
+superheroes = load_superheroes()
 
 @app.route('/')
 def hello():
