@@ -38,3 +38,4 @@ This project is a full-stack application with a Flask backend API and Angular fr
 # General instructions
 - Always include comments with code suggestions.
 - Incorporate error handling in all suggestions, with clear messaging for potential issues and recovery steps to ensure a robust and user-friendly application
+- When generating tests, generate a comprehensive suite of unit tests. Write multiple test methods that cover a wide range of scenarios, including edge cases, exception handling, and data validation.
