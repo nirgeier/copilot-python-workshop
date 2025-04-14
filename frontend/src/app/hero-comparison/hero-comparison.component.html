@@ -1,0 +1,34 @@
+<div class="comparison-container" *ngIf="hero1 && hero2">
+  <div class="header">
+    <h2>Superhero Comparison</h2>
+    <button class="back-button" (click)="goBack()">Back to List</button>
+  </div>
+
+  <div class="winner-announcement" *ngIf="winner">
+    <h3>Winner: {{ winner === 'Tie' ? 'It\'s a Tie!' : winner + ' Wins!' }}</h3>
+  </div>
+
+  <div class="comparison-grid">
+    <div class="hero-card">
+      <img [src]="hero1.image" [alt]="hero1.name" class="hero-image">
+      <h3>{{ hero1.name }}</h3>
+    </div>
+
+    <div class="stats-comparison">
+      <div class="stat-row" *ngFor="let stat of ['intelligence', 'strength', 'speed', 'durability', 'power', 'combat']">
+        <div class="stat-value" [class]="getWinnerClass(stat)">
+          {{ hero1.powerstats[stat] }}
+        </div>
+        <div class="stat-name">{{ stat | titlecase }}</div>
+        <div class="stat-value" [class]="getWinnerClass(stat)">
+          {{ hero2.powerstats[stat] }}
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <img [src]="hero2.image" [alt]="hero2.name" class="hero-image">
+      <h3>{{ hero2.name }}</h3>
+    </div>
+  </div>
+</div>

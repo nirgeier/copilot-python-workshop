@@ -1,5 +1,14 @@
 <div class="superheroes-container">
-  <h2>Superheroes List</h2>
+  <div class="header-actions">
+    <h2>Superheroes List</h2>
+    <button 
+      class="compare-button" 
+      [disabled]="!canCompare()" 
+      (click)="compareHeroes()"
+      [class.active]="canCompare()">
+      Compare Selected Heroes
+    </button>
+  </div>
   <table>
     <thead>
       <tr>
@@ -15,7 +24,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let hero of superheroes">
+      <tr *ngFor="let hero of superheroes" 
+          (click)="toggleSelection(hero)"
+          [class.selected]="isSelected(hero)">
         <td>{{hero.id}}</td>
         <td><img [src]="hero.image" [alt]="hero.name" class="hero-image"></td>
         <td>{{hero.name}}</td>

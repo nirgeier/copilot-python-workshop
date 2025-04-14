@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 interface Powerstats {
+  [key: string]: number;
   intelligence: number;
   strength: number;
   speed: number;
