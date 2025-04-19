@@ -29,13 +29,6 @@ def hello():
     return "Save the World!"
 
 @app.route('/superheroes/all')
-"""
-Get a list of all superheroes.
-
-Returns:
-    json: A JSON array containing all superhero objects from the superheroes list.
-    Each superhero object contains hero information such as name, powers, etc.
-"""
 def get_all_superheroes():
     return jsonify(superheroes)
 
