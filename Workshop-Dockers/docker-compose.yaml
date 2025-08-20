@@ -1,0 +1,15 @@
+services:
+  copilot-python-workshop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${CONTAINER_NAME}
+    # env_file:
+    #   - .env
+    image: nirgeier/${CONTAINER_NAME}:${IMAGE_TAG}
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      # The code need to be mapped inside /app/src
+      - ./copilot-python-workshop:/app/src/copilot-python-workshop
