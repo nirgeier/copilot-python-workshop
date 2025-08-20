@@ -1,0 +1,69 @@
+name: Build and Push Multi-Platform Docker Images
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: nirgeier/copilot-python-workshop
+  BASE_IMAGE: ubuntu:22.04
+  NODE_VERSION: 20
+  CONTAINER_NAME: copilot-python-workshop
+  VERSION: 1.0
+  BACKEND_PORT: 3000
+  FRONTEND_PORT: 4200
+  REPO_URL: https://github.com/nirgeier/copilot-python-workshop.git
+  REPO_BRANCH: Docker
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix={{branch}}-
+
+      - name: Build and push multi-platform Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./copilot-python-workshop-Docker
+          file: ./copilot-python-workshop-Docker/Dockerfile
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BASE_IMAGE=${{ env.BASE_IMAGE }}
+            NODE_VERSION=${{ env.NODE_VERSION }}
+            CONTAINER_NAME=${{ env.CONTAINER_NAME }}
+            VERSION=${{ env.VERSION }}
+            BACKEND_PORT=${{ env.BACKEND_PORT }}
+            FRONTEND_PORT=${{ env.FRONTEND_PORT }}
+            REPO_URL=${{ env.REPO_URL }}
+            REPO_BRANCH=${{ env.REPO_BRANCH }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
